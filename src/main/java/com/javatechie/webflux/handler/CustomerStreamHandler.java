@@ -20,6 +20,8 @@ public class CustomerStreamHandler {
     public Mono<ServerResponse> getCustomers(ServerRequest request) {
         Flux<Customer> customersStream = dao.getCustomersStream();
         return ServerResponse.ok().
+                // con el contentytype seleccionado devuelvo el stream y no los objetos 
+                //y así sigue emitiendo a medida que van llegando los eventos
                 contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(customersStream, Customer.class);
     }

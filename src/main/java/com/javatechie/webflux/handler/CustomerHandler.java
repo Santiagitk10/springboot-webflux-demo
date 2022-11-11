@@ -23,7 +23,10 @@ public class CustomerHandler {
 
 
     public Mono<ServerResponse> findCustomer(ServerRequest request){
+        //Así se obtiene el valor de la variable de la url
       int customerId= Integer.valueOf( request.pathVariable("input"));
+      //De las siguentes dos maneras se puede obterner un mono de un flux cuando se sabe 
+      //que solo se va a abtener un elemento y se quiere un mono
        // dao.getCustomerList().filter(c->c.getId()==customerId).take(1).single();
         Mono<Customer> customerMono = dao.getCustomerList().filter(c -> c.getId() == customerId).next();
         return ServerResponse.ok().body(customerMono,Customer.class);
